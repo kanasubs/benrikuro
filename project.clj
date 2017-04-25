@@ -15,7 +15,7 @@
 
   :creds :gpg
 
-  :dependencies [[org.clojure/clojure "1.5.1"] [prismatic/plumbing "0.4.1"]]
+  :dependencies [[org.clojure/clojure "1.5.1"] [prismatic/plumbing "0.5.0"]]
 
   :profiles {:dev {:plugins [[codox "0.8.10"]]}}
 
