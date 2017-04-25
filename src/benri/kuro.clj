@@ -9,16 +9,16 @@
    metadata (as provided by def) merged into the metadata of the original.
    source: same as defalias from clojure 1.2 and downwards."
   ([name orig]
-  `(do
-     (alter-meta!
-      (if (.hasRoot (var ~orig))
-        (def ~name (.getRawRoot (var ~orig)))
-        (def ~name))
+   `(do
+      (alter-meta!
+       (if (.hasRoot (var ~orig))
+         (def ~name (.getRawRoot (var ~orig)))
+         (def ~name))
       ;; When copying metadata, disregard {:macro false}.
       ;; Workaround for http://www.assembla.com/spaces/clojure/tickets/273
-      #(conj (dissoc % :macro)
-             (apply dissoc (meta (var ~orig)) (remove #{:macro} (keys %)))))
-     (var ~name)))
+       #(conj (dissoc % :macro)
+              (apply dissoc (meta (var ~orig)) (remove #{:macro} (keys %)))))
+      (var ~name)))
   ([name orig doc]
    (list `defcopy (with-meta name (assoc (meta name) :doc doc)) orig)))
 
@@ -93,8 +93,8 @@
   exhausted.  Any remaining items in other colls are ignored. Function
   f should accept number-of-colls arguments."
   ([f coll]
-     (-> (reduce (fn [v o] (conj! v (f o))) (transient {}) coll)
-         persistent!))
+   (-> (reduce (fn [v o] (conj! v (f o))) (transient {}) coll)
+       persistent!))
   ([f c1 c2] (into {} (map f c1 c2)))
   ([f c1 c2 c3] (into {} (map f c1 c2 c3)))
   ([f c1 c2 c3 & colls] (into {} (apply map f c1 c2 c3 colls))))
@@ -109,7 +109,7 @@
                rest-colls (map rest non-empty-colls)]
            (cons (apply f first-items)
                  (map* f rest-colls))))))
-  f colls))
+   f colls))
 
 (ƒ map-keys
   "Applies f to all the keys in the map."
@@ -131,7 +131,7 @@
       (if (identical? old new)
         m
         (assoc m k new)))
-     (apply f m args)))
+    (apply f m args)))
 
 (ƒ update-each
   "Update the values for each of the given keys in a map where f is a function that takes each
@@ -140,7 +140,7 @@
   [m keys f & args]
   (→v (fn [m key]
         (apply update-in* m [key] f args))
-          m keys))
+      m keys))
 
 (ƒ update-multi
   "Updates multiple keys of a map with multiple fns using a map of key/fn pairs."
@@ -175,7 +175,7 @@
    The method-name is given a symbol or a keyword (something Named)."
   [klass method-name params obj & args]
   (→ klass (.getDeclaredMethod (name method-name)
-                                (into-array Class params))
+                               (into-array Class params))
       (doto (.setAccessible true))
       (.invoke obj (into-array Object args))))
 
